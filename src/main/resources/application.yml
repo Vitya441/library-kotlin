@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: library-app
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/library_db
+    username: vitya
+    password: 22817
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        show_sql: true
