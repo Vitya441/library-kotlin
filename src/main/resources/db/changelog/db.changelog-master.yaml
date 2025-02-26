@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/v1/v1-create-book-table.yaml
+  - include:
+      file: db/changelog/v1/v1-create-reader-table.yaml
+  - include:
+      file: db/changelog/v1/v1-create-loan-table.yaml
+  - include:
+      file: db/changelog/v1/v1-create-reservation-table.yaml
