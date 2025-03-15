@@ -4,7 +4,6 @@ import by.modsen.libraryapp.domain.enumeration.OrderStatus
 import jakarta.persistence.AttributeConverter
 import jakarta.persistence.Converter
 
-//TODO: Необязательная аннотация, но в ней есть параметр autoApply (default = false)
 @Converter
 class OrderStatusConverter : AttributeConverter<OrderStatus, Int> {
 
