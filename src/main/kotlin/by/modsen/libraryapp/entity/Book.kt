@@ -1,4 +1,4 @@
-package by.modsen.libraryapp.domain.entity
+package by.modsen.libraryapp.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity

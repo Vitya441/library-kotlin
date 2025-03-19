@@ -1,4 +1,4 @@
-package by.modsen.libraryapp.domain.enumeration
+package by.modsen.libraryapp.enumeration
 
 enum class OrderStatus(val code: Int) {
     PENDING(0),
