@@ -1,34 +1,36 @@
 package by.modsen.libraryapp.service.impl
 
-import by.modsen.libraryapp.entity.Reader
 import by.modsen.libraryapp.dto.request.ReaderRequest
-import by.modsen.libraryapp.dto.request.toEntity
 import by.modsen.libraryapp.dto.response.PaginatedResponse
 import by.modsen.libraryapp.dto.response.ReaderResponse
-import by.modsen.libraryapp.dto.response.toResponse
+import by.modsen.libraryapp.entity.Reader
+import by.modsen.libraryapp.mapper.ReaderMapper
 import by.modsen.libraryapp.repository.ReaderRepository
 import by.modsen.libraryapp.service.ReaderService
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 
 @Service
-class ReaderServiceImpl(private val readerRepository: ReaderRepository) : ReaderService {
+class ReaderServiceImpl(
+    private val readerRepository: ReaderRepository,
+    private val readerMapper: ReaderMapper,
+) : ReaderService {
 
     override fun save(readerRequest: ReaderRequest): ReaderResponse {
-        val readerEntity = readerRequest.toEntity()
+        val readerEntity = readerMapper.toEntity(readerRequest)
         readerRepository.save(readerEntity)
 
-        return readerEntity.toResponse()
+        return readerMapper.toResponse(readerEntity)
     }
 
     override fun getById(id: Long): ReaderResponse {
         val readerEntity = getReaderByIdOrThrow(id)
-        return readerEntity.toResponse()
+        return readerMapper.toResponse(readerEntity)
     }
 
     override fun getAll(): List<ReaderResponse> {
         val readerList = readerRepository.findAll()
-        return readerList.map { it.toResponse() }
+        return readerList.map { readerMapper.toResponse(it) }
     }
 
     override fun getPage(page: Int, size: Int): PaginatedResponse<ReaderResponse> {
@@ -36,7 +38,7 @@ class ReaderServiceImpl(private val readerRepository: ReaderRepository) : Reader
         val readersPage = readerRepository.findAll(pageable)
 
         return PaginatedResponse(
-            content = readersPage.content.map { it.toResponse() },
+            content = readersPage.content.map { readerMapper.toResponse(it) },
             totalPages = readersPage.totalPages,
             totalElements = readersPage.totalElements,
             currentPage = readersPage.number
