@@ -1,12 +1,14 @@
 package by.modsen.libraryapp.service
 
-import by.modsen.libraryapp.entity.Loan
+import by.modsen.libraryapp.dto.response.LoanResponse
 
 interface LoanService {
 
-    // TODO: Нас сколько дней пользователь может взять книгу (отдолжить) ?
-    // Следить за этим будет не читатель, а сотрудник на стороне библиотеки
-    fun borrowBook(readerId: Long, bookId: Long, days: Long = 14): Loan
+    fun borrowBook(readerId: Long, bookId: Long, days: Long = 14): LoanResponse
 
-    fun returnBook(loanId: Long)
+    fun returnBook(loanId: Long): LoanResponse
+
+    fun getAllByReaderId(readerId: Long): List<LoanResponse>
+
+    fun getUnreturnedBooksByReaderId(readerId: Long): List<LoanResponse>
 }

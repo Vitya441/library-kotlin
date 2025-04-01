@@ -8,5 +8,5 @@ data class LoanResponse(
     val reader: ReaderResponse,
     val loanDate: LocalDate,
     val dueDate: LocalDate,
-    val isReturned: Boolean
+    var isReturned: Boolean
 )
