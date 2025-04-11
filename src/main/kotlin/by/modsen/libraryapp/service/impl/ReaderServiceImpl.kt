@@ -1,9 +1,11 @@
 package by.modsen.libraryapp.service.impl
 
+import by.modsen.libraryapp.dto.request.ReaderPatchRequest
 import by.modsen.libraryapp.dto.request.ReaderRequest
 import by.modsen.libraryapp.dto.response.PaginatedResponse
 import by.modsen.libraryapp.dto.response.ReaderResponse
 import by.modsen.libraryapp.entity.Reader
+import by.modsen.libraryapp.exception.NotFoundException
 import by.modsen.libraryapp.mapper.ReaderMapper
 import by.modsen.libraryapp.repository.ReaderRepository
 import by.modsen.libraryapp.service.ReaderService
@@ -45,9 +47,25 @@ class ReaderServiceImpl(
         )
     }
 
+    override fun updateReaderById(id: Long, updateRequest: ReaderRequest): ReaderResponse {
+        val reader = getReaderByIdOrThrow(id);
+        readerMapper.updateEntityFromDto(updateRequest, reader)
+        readerRepository.save(reader)
+
+        return readerMapper.toResponse(reader)
+    }
+
+    override fun patchReaderById(id: Long, patchRequest: ReaderPatchRequest): ReaderResponse {
+        val reader = getReaderByIdOrThrow(id);
+        readerMapper.patchEntityFromDto(patchRequest, reader)
+        readerRepository.save(reader)
+
+        return readerMapper.toResponse(reader)
+    }
+
     override fun deleteById(id: Long) {
         if (!readerRepository.existsById(id)) {
-            throw RuntimeException("Reader not found with id: $id")
+            throw NotFoundException("Reader with id = $id not found")
         }
         readerRepository.deleteById(id)
     }
@@ -55,6 +73,6 @@ class ReaderServiceImpl(
     private fun getReaderByIdOrThrow(id: Long): Reader {
         return readerRepository
             .findById(id)
-            .orElseThrow { RuntimeException("Reader with id: $id not found") }
+            .orElseThrow { NotFoundException("Reader with id = $id not found") }
     }
 }

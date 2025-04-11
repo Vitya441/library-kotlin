@@ -4,6 +4,6 @@ data class BookRequest(
     val title: String,
     val genre: String,
     val author: String,
-    var totalCopies: Int,
-    var availableCopies: Int
+    val totalCopies: Int,
+    val availableCopies: Int
 )

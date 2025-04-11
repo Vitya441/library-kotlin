@@ -13,43 +13,17 @@ class Book(
     var id: Long? = null,
 
     @Column(nullable = false)
-    val title: String,
+    var title: String,
 
     @Column(nullable = false)
-    val genre: String,
+    var genre: String,
 
     @Column(nullable = false)
-    val author: String,
+    var author: String,
 
     @Column(nullable = false)
     var totalCopies: Int,
 
     @Column(nullable = false)
     var availableCopies: Int
-) {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is Book) return false
-
-        if (totalCopies != other.totalCopies) return false
-        if (availableCopies != other.availableCopies) return false
-        if (title != other.title) return false
-        if (genre != other.genre) return false
-        if (author != other.author) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = totalCopies
-        result = 31 * result + availableCopies
-        result = 31 * result + title.hashCode()
-        result = 31 * result + genre.hashCode()
-        result = 31 * result + author.hashCode()
-        return result
-    }
-
-    override fun toString(): String {
-        return "Book(id=$id, title='$title', genre='$genre', author='$author', totalCopies=$totalCopies, availableCopies=$availableCopies)"
-    }
-}
+)

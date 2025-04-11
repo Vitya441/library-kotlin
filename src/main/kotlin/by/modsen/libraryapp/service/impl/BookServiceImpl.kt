@@ -1,9 +1,11 @@
 package by.modsen.libraryapp.service.impl
 
 import by.modsen.libraryapp.dto.request.BookRequest
+import by.modsen.libraryapp.dto.request.BookPatchRequest
 import by.modsen.libraryapp.dto.response.BookResponse
 import by.modsen.libraryapp.dto.response.PaginatedResponse
 import by.modsen.libraryapp.entity.Book
+import by.modsen.libraryapp.exception.NotFoundException
 import by.modsen.libraryapp.mapper.BookMapper
 import by.modsen.libraryapp.repository.BookRepository
 import by.modsen.libraryapp.service.BookService
@@ -46,9 +48,25 @@ class BookServiceImpl(
         )
     }
 
+    override fun updateBookById(id: Long, updateRequest: BookRequest): BookResponse {
+        val book = getBookByIdOrThrow(id);
+        bookMapper.updateEntityFromDto(updateRequest, book)
+        bookRepository.save(book)
+
+        return bookMapper.toResponse(book)
+    }
+
+    override fun patchBookById(id: Long, patchRequest: BookPatchRequest): BookResponse {
+        val book = getBookByIdOrThrow(id)
+        bookMapper.patchEntityFromDto(patchRequest, book)
+        bookRepository.save(book)
+
+        return bookMapper.toResponse(book)
+    }
+
     override fun deleteById(id: Long) {
         if (!bookRepository.existsById(id)) {
-            throw RuntimeException("Book not found with id: $id")
+            throw NotFoundException("Book with id = $id not found")
         }
         bookRepository.deleteById(id)
     }
@@ -56,6 +74,6 @@ class BookServiceImpl(
     private fun getBookByIdOrThrow(bookId: Long): Book {
         return bookRepository
             .findById(bookId)
-            .orElseThrow { RuntimeException("Book not found with id: $bookId") }
+            .orElseThrow { NotFoundException("Book with id = $bookId not found") }
     }
 }

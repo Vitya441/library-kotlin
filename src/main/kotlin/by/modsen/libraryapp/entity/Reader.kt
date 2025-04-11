@@ -13,18 +13,8 @@ class Reader(
     var id: Long? = null,
 
     @Column(nullable = false)
-    val name: String,
-) {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is Reader) return false
+    var firstName: String,
 
-        if (name != other.name) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        return name.hashCode()
-    }
-}
+    @Column(nullable = false)
+    var lastName: String,
+)

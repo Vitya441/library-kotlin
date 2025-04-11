@@ -2,6 +2,8 @@ package by.modsen.libraryapp.service.impl
 
 import by.modsen.libraryapp.dto.response.LoanResponse
 import by.modsen.libraryapp.entity.Loan
+import by.modsen.libraryapp.exception.NoAvailableBooksException
+import by.modsen.libraryapp.exception.NotFoundException
 import by.modsen.libraryapp.mapper.LoanMapper
 import by.modsen.libraryapp.repository.BookRepository
 import by.modsen.libraryapp.repository.LoanRepository
@@ -23,14 +25,14 @@ class LoanServiceImpl(
     override fun borrowBook(readerId: Long, bookId: Long, days: Long): LoanResponse {
         val reader = readerRepository
             .findById(readerId)
-            .orElseThrow { RuntimeException("Reader with id = $readerId not found") }
+            .orElseThrow { NotFoundException("Reader with id = $readerId not found") }
 
         val book = bookRepository
             .findById(bookId)
-            .orElseThrow { RuntimeException("Book with id = $bookId not found") }
+            .orElseThrow { NotFoundException("Book with id = $bookId not found") }
 
         if (book.availableCopies <= 0) {
-            throw RuntimeException("No available copies for book with id = $bookId")
+            throw NoAvailableBooksException("No available copies for book with id = $bookId")
         }
 
         // Высчитываем дату возврата
@@ -49,9 +51,9 @@ class LoanServiceImpl(
     override fun returnBook(loanId: Long): LoanResponse {
         val loan = loanRepository
             .findById(loanId)
-            .orElseThrow { RuntimeException("Loan with id = $loanId not found") }
+            .orElseThrow { NotFoundException("Loan with id = $loanId not found") }
 
-        val bookId = loan.book.id ?: throw RuntimeException("Book ID is null")
+        val bookId = loan.book.id!!
         val book = bookRepository.findById(bookId).get()
         book.availableCopies += 1
         loan.isReturned = true
@@ -64,7 +66,7 @@ class LoanServiceImpl(
 
     override fun getAllByReaderId(readerId: Long): List<LoanResponse> {
         if (!readerRepository.existsById(readerId)) {
-            throw RuntimeException("Reader with id = $readerId not found")
+            throw NotFoundException("Reader with id = $readerId not found")
         }
         val loans = loanRepository.findAllByReaderId(readerId)
 
@@ -73,7 +75,7 @@ class LoanServiceImpl(
 
     override fun getUnreturnedBooksByReaderId(readerId: Long): List<LoanResponse> {
         if (!readerRepository.existsById(readerId)) {
-            throw RuntimeException("Reader with id = $readerId not found")
+            throw NotFoundException("Reader with id = $readerId not found")
         }
         val loans = loanRepository.findAllByReaderIdAndIsReturnedFalse(readerId)
 

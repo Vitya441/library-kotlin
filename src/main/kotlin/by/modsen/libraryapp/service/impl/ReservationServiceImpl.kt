@@ -4,6 +4,7 @@ import by.modsen.libraryapp.dto.response.ReservationResponse
 import by.modsen.libraryapp.entity.Loan
 import by.modsen.libraryapp.entity.Reservation
 import by.modsen.libraryapp.enumeration.OrderStatus
+import by.modsen.libraryapp.exception.NotFoundException
 import by.modsen.libraryapp.mapper.ReservationMapper
 import by.modsen.libraryapp.repository.BookRepository
 import by.modsen.libraryapp.repository.LoanRepository
@@ -13,6 +14,11 @@ import by.modsen.libraryapp.service.ReservationService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
+
+/**                             TODO:
+ * Подумать над следующим, зарезервировать, значит уменьшить доступное кол-во на
+ * еденицу, у меня в коде пока что не изменяется кол-во доступных книг при резервировании
+ */
 
 @Service
 class ReservationServiceImpl(
@@ -27,11 +33,11 @@ class ReservationServiceImpl(
     override fun reserveBook(readerId: Long, bookId: Long): ReservationResponse {
         val reader = readerRepository
             .findById(readerId)
-            .orElseThrow { RuntimeException("Reader with id = $readerId not found") }
+            .orElseThrow { NotFoundException("Reader with id = $readerId not found") }
 
         val book = bookRepository
             .findById(bookId)
-            .orElseThrow { RuntimeException("Book with id = $bookId not found") }
+            .orElseThrow { NotFoundException("Book with id = $bookId not found") }
 
         val isBookLoaned = loanRepository.existsByBookAndIsReturnedFalse(book)
         if (isBookLoaned) {
@@ -49,11 +55,16 @@ class ReservationServiceImpl(
         return reservationMapper.toResponse(reservation)
     }
 
+    /**                TODO: возможно нет
+     * Возможно ручное одобрение или отклонение заявки убрать,
+     * а просто проверять долги пользователя в приложении, и если
+     * их нет, то позволять делать бронирование
+     */
     @Transactional
     override fun rejectReservation(reservationId: Long) {
         val reservation = reservationRepository
             .findById(reservationId)
-            .orElseThrow { RuntimeException("Бронирование не найдено") }
+            .orElseThrow { NotFoundException("Бронирование не найдено") }
 
         reservation.status = OrderStatus.CANCELLED
         reservationRepository.save(reservation)
@@ -63,7 +74,7 @@ class ReservationServiceImpl(
     override fun confirmReservation(reservationId: Long) {
         val reservation = reservationRepository
             .findById(reservationId)
-            .orElseThrow { RuntimeException("Бронирование не найдено") }
+            .orElseThrow { NotFoundException("Бронирование не найдено") }
 
         reservation.status = OrderStatus.CONFIRMED
         reservationRepository.save(reservation)

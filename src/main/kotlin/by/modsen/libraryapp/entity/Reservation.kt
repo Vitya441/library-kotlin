@@ -30,9 +30,4 @@ class Reservation(
 
     @Convert(converter = OrderStatusConverter::class)
     var status: OrderStatus = OrderStatus.PENDING,
-) {
-
-    override fun toString(): String {
-        return "Reservation(id=$id, book=$book, reader=$reader, reservationDate=$reservationDate, status=$status)"
-    }
-}
+)

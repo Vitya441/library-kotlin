@@ -28,30 +28,4 @@ class Loan(
     val dueDate: LocalDate,
 
     var isReturned: Boolean = false
-) {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is Loan) return false
-
-        if (isReturned != other.isReturned) return false
-        if (book != other.book) return false
-        if (reader != other.reader) return false
-        if (loanDate != other.loanDate) return false
-        if (dueDate != other.dueDate) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = isReturned.hashCode()
-        result = 31 * result + book.hashCode()
-        result = 31 * result + reader.hashCode()
-        result = 31 * result + loanDate.hashCode()
-        result = 31 * result + dueDate.hashCode()
-        return result
-    }
-
-    override fun toString(): String {
-        return "Loan(id=$id, book=$book, reader=$reader, loanDate=$loanDate, dueDate=$dueDate, isReturned=$isReturned)"
-    }
-}
+)
