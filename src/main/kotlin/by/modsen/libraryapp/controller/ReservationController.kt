@@ -1,7 +1,6 @@
 package by.modsen.libraryapp.controller
 
 import by.modsen.libraryapp.dto.response.ReservationResponse
-import by.modsen.libraryapp.entity.Reservation
 import by.modsen.libraryapp.service.ReservationService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping

@@ -14,9 +14,6 @@ import java.time.LocalDate
 
 @Entity
 class Reservation(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", nullable = false)
@@ -29,5 +26,6 @@ class Reservation(
     val reservationDate: LocalDate = LocalDate.now(),
 
     @Convert(converter = OrderStatusConverter::class)
-    var status: OrderStatus = OrderStatus.PENDING,
-)
+    var status: OrderStatus = OrderStatus.PENDING
+
+) : BaseEntity()

@@ -7,6 +7,7 @@ databaseChangeLog:
       file: db/changelog/v1/v1-create-loan-table.yaml
   - include:
       file: db/changelog/v1/v1-create-reservation-table.yaml
-
   - include:
       file: db/changelog/v2/v2-update-reader-table.yaml
+  - include:
+      file: db/changelog/v2/v2-audit-columns.yaml
