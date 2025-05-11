@@ -1,15 +1,15 @@
 package by.modsen.libraryapp.enumeration
 
-enum class OrderStatus(val code: Int) {
-    PENDING(0),
-    CONFIRMED(1),
-    CANCELLED(2);
+enum class OrderStatus(val label: String) {
+    PENDING("pending"),
+    CONFIRMED("confirmed"),
+    CANCELLED("cancelled");
 
     companion object {
-        fun fromCode(code: Int): OrderStatus {
-            return entries.find { it.code == code }
+        fun fromLabel(label: String): OrderStatus {
+            return entries.find { it.label == label }
                 ?: throw IllegalArgumentException(
-                    "Failed to convert code '$code' to an Enum value for InboxStatus. " +
+                    "Failed to convert code '$label' to an Enum value for InboxStatus. " +
                             "Please check the database values or possible changes to the Enum definition."
                 )
         }

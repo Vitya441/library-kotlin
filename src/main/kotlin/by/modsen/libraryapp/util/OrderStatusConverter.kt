@@ -5,13 +5,13 @@ import jakarta.persistence.AttributeConverter
 import jakarta.persistence.Converter
 
 @Converter
-class OrderStatusConverter : AttributeConverter<OrderStatus, Int> {
+class OrderStatusConverter : AttributeConverter<OrderStatus, String> {
 
-    override fun convertToDatabaseColumn(attribute: OrderStatus): Int {
-        return attribute.code
+    override fun convertToDatabaseColumn(attribute: OrderStatus): String {
+        return attribute.label
     }
 
-    override fun convertToEntityAttribute(dbData: Int): OrderStatus {
-        return OrderStatus.fromCode(dbData)
+    override fun convertToEntityAttribute(dbData: String): OrderStatus {
+        return OrderStatus.fromLabel(dbData)
     }
 }

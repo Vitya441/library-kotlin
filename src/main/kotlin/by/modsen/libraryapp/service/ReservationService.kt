@@ -11,4 +11,6 @@ interface ReservationService {
     fun confirmReservation(reservationId: Long)
 
     fun getReservationsByReaderId(readerId: Long): List<ReservationResponse>
+
+    fun getAllReservations(): List<ReservationResponse>
 }

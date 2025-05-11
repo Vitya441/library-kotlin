@@ -36,6 +36,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: status
-                  type: int
+#                  type: int
+                  type: varchar(50)
                   constraints:
                     nullable: false

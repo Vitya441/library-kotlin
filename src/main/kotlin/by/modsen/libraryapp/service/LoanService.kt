@@ -1,14 +1,15 @@
 package by.modsen.libraryapp.service
 
+import by.modsen.libraryapp.dto.request.LoanRequest
 import by.modsen.libraryapp.dto.response.LoanResponse
 
 interface LoanService {
 
-    fun borrowBook(readerId: Long, bookId: Long, days: Long = 14): LoanResponse
+    fun createLoan(loanRequest: LoanRequest): LoanResponse
 
-    fun returnBook(loanId: Long): LoanResponse
+    fun completeLoan(loanId: Long): LoanResponse
 
-    fun getAllByReaderId(readerId: Long): List<LoanResponse>
+    fun getLoansByReaderId(readerId: Long): List<LoanResponse>
 
-    fun getUnreturnedBooksByReaderId(readerId: Long): List<LoanResponse>
+    fun getActiveLoansByReaderId(readerId: Long): List<LoanResponse>
 }

@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 2025-04-20
+      id: 2025-04-20:audit-columns
       author: Vitya441
       changes:
         - addColumn:

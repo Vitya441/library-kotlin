@@ -11,28 +11,36 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
+/**
+ * Переписать в Postman URL-ы
+ */
 @RestController
 @RequestMapping("/reservations")
 class ReservationController(private val reservationService: ReservationService) {
 
-    @PostMapping("/reserve")
-    fun reserveBook(@RequestParam readerId: Long, @RequestParam bookId: Long): ResponseEntity<ReservationResponse> {
+    @PostMapping
+    fun create(@RequestParam readerId: Long, @RequestParam bookId: Long): ResponseEntity<ReservationResponse> {
         return ResponseEntity.ok(reservationService.reserveBook(readerId, bookId))
     }
 
     @PutMapping("/{id}/confirm")
-    fun confirmReservation(@PathVariable id: Long) {
+    fun confirm(@PathVariable id: Long) {
         reservationService.confirmReservation(id)
     }
 
     @PutMapping("/{id}/reject")
-    fun rejectReservation(@PathVariable id: Long) {
+    fun reject(@PathVariable id: Long) {
         reservationService.rejectReservation(id)
     }
 
-    @GetMapping
-    fun getReservationsByReaderId(@RequestParam readerId: Long): List<ReservationResponse> {
+    @GetMapping("/readers/{readerId}")
+    fun getByReaderId(@PathVariable readerId: Long): List<ReservationResponse> {
         return reservationService.getReservationsByReaderId(readerId)
+    }
+
+    @GetMapping
+    fun getAll(): List<ReservationResponse> {
+        return reservationService.getAllReservations();
     }
 
 }

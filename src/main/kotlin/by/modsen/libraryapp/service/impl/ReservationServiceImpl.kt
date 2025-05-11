@@ -39,11 +39,6 @@ class ReservationServiceImpl(
             .findById(bookId)
             .orElseThrow { NotFoundException("Book with id = $bookId not found") }
 
-        val isBookLoaned = loanRepository.existsByBookAndIsReturnedFalse(book)
-        if (isBookLoaned) {
-            throw RuntimeException("Book has already been issued")
-        }
-
         val reservation = Reservation(
             book = book,
             reader = reader,
@@ -63,17 +58,21 @@ class ReservationServiceImpl(
     @Transactional
     override fun rejectReservation(reservationId: Long) {
         val reservation = reservationRepository
-            .findById(reservationId)
+            .findByIdAndStatus(reservationId, OrderStatus.PENDING)
             .orElseThrow { NotFoundException("Бронирование не найдено") }
 
         reservation.status = OrderStatus.CANCELLED
         reservationRepository.save(reservation)
     }
 
+    /**
+     * Когда бронь (reservation) одобряют -> создаётся задолженность (loan)
+     * и количество доступных экземпляров книг уменьшается.
+     */
     @Transactional
     override fun confirmReservation(reservationId: Long) {
         val reservation = reservationRepository
-            .findById(reservationId)
+            .findByIdAndStatus(reservationId, OrderStatus.PENDING)
             .orElseThrow { NotFoundException("Бронирование не найдено") }
 
         reservation.status = OrderStatus.CONFIRMED
@@ -89,7 +88,7 @@ class ReservationServiceImpl(
 
         val book = bookRepository
             .findById(bookId)
-            .orElseThrow { RuntimeException("Book with id = $bookId not found") }
+            .orElseThrow { NotFoundException("Book with id = $bookId not found") }
 
         book.availableCopies -= 1
         bookRepository.save(book)
@@ -98,7 +97,12 @@ class ReservationServiceImpl(
     }
 
     override fun getReservationsByReaderId(readerId: Long): List<ReservationResponse> {
-        val listResponse = reservationMapper.toListResponse(reservationRepository.findByReaderId(readerId))
-        return listResponse
+        val reservations: List<Reservation> = reservationRepository.findByReaderId(readerId)
+        return reservationMapper.toListResponse(reservations)
+    }
+
+    override fun getAllReservations(): List<ReservationResponse> {
+        val entities: List<Reservation> = reservationRepository.findAll()
+        return reservationMapper.toListResponse(entities);
     }
 }

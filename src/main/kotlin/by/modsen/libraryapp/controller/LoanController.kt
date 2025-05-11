@@ -1,5 +1,6 @@
 package by.modsen.libraryapp.controller
 
+import by.modsen.libraryapp.dto.request.LoanRequest
 import by.modsen.libraryapp.dto.response.LoanResponse
 import by.modsen.libraryapp.service.LoanService
 import org.springframework.http.ResponseEntity
@@ -7,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 /**
@@ -19,28 +20,24 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/loans")
 class LoanController(private val loanService: LoanService) {
 
-    @PostMapping("/borrow")
-    fun borrowBook(
-        @RequestParam readerId: Long,
-        @RequestParam bookId: Long,
-        @RequestParam(defaultValue = "14") days: Long
-    ): ResponseEntity<LoanResponse> {
-        return ResponseEntity.ok(loanService.borrowBook(readerId, bookId, days))
+    @PostMapping
+    fun create(@RequestBody loanRequest: LoanRequest): ResponseEntity<LoanResponse> {
+        return ResponseEntity.ok(loanService.createLoan(loanRequest))
     }
 
-    @PutMapping("/{loanId}/return")
-    fun returnBook(@PathVariable loanId: Long): ResponseEntity<LoanResponse> {
-        return ResponseEntity.ok(loanService.returnBook(loanId))
+    @PutMapping("/{loanId}/complete")
+    fun complete(@PathVariable loanId: Long): ResponseEntity<LoanResponse> {
+        return ResponseEntity.ok(loanService.completeLoan(loanId))
     }
 
-    @GetMapping
-    fun getAllByReaderId(@RequestParam readerId: Long): ResponseEntity<List<LoanResponse>> {
-        return ResponseEntity.ok(loanService.getAllByReaderId(readerId))
+    @GetMapping("/readers/{readerId}")
+    fun getByReaderId(@PathVariable readerId: Long): ResponseEntity<List<LoanResponse>> {
+        return ResponseEntity.ok(loanService.getLoansByReaderId(readerId))
     }
 
-    @GetMapping("/borrowed")
-    fun getBorrowedBooksByReaderId(@RequestParam readerId: Long): ResponseEntity<List<LoanResponse>> {
-        return ResponseEntity.ok(loanService.getUnreturnedBooksByReaderId(readerId))
+    @GetMapping("/readers/{readerId}/active")
+    fun getActiveByReaderId(@PathVariable readerId: Long): ResponseEntity<List<LoanResponse>> {
+        return ResponseEntity.ok(loanService.getActiveLoansByReaderId(readerId))
     }
 
 }

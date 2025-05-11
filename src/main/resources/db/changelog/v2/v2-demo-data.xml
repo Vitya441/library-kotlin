@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+<!--         <changeset context="dev"     -->
+    <changeSet id="2025-05-11:demo-data" author="Vitya441">
+        <insert tableName="reader">
+            <column name="id" valueNumeric="1"/>
+            <column name="first_name" value="Viktor"/>
+            <column name="last_name" value="Maksimov"/>
+            <column name="created_at" valueDate="2025-05-05T12:00:00"/>
+            <column name="updated_at" valueDate="2025-05-05T12:00:00"/>
+        </insert>
+        <insert tableName="reader">
+            <column name="id" valueNumeric="2"/>
+            <column name="first_name" value="Nikita"/>
+            <column name="last_name" value="Labut"/>
+            <column name="created_at" valueDate="2025-05-05T12:00:00"/>
+            <column name="updated_at" valueDate="2025-05-05T12:00:00"/>
+        </insert>
+
+        <insert tableName="book">
+            <column name="id" valueNumeric="1"/>
+            <column name="title" value="Мастер и Маргарита"/>
+            <column name="genre" value="Роман"/>
+            <column name="author" value="Михаил Булгаков"/>
+            <column name="total_copies" valueNumeric="100"/>
+            <column name="available_copies" valueNumeric="100"/>
+            <column name="created_at" valueDate="2025-05-05T12:00:00"/>
+            <column name="updated_at" valueDate="2025-05-05T12:00:00"/>
+        </insert>
+        <insert tableName="book">
+            <column name="id" valueNumeric="2"/>
+            <column name="title" value="Колобок"/>
+            <column name="genre" value="Сказка"/>
+            <column name="author" value="Народ"/>
+            <column name="total_copies" valueNumeric="100"/>
+            <column name="available_copies" valueNumeric="100"/>
+            <column name="created_at" valueDate="2025-05-05T12:00:00"/>
+            <column name="updated_at" valueDate="2025-05-05T12:00:00"/>
+        </insert>
+        <insert tableName="book">
+            <column name="id" valueNumeric="3"/>
+            <column name="title" value="Метро 2033"/>
+            <column name="genre" value="Роман"/>
+            <column name="author" value="Дмитрий Глуховский"/>
+            <column name="total_copies" valueNumeric="100"/>
+            <column name="available_copies" valueNumeric="100"/>
+            <column name="created_at" valueDate="2025-05-05T12:00:00"/>
+            <column name="updated_at" valueDate="2025-05-05T12:00:00"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

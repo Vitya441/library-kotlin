@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController
 class BookController(private val bookService: BookService) {
 
     @PostMapping
-    fun save(@RequestBody bookRequest: BookRequest): ResponseEntity<BookResponse> {
+    fun create(@RequestBody bookRequest: BookRequest): ResponseEntity<BookResponse> {
         return ResponseEntity(bookService.save(bookRequest), HttpStatus.CREATED)
     }
 

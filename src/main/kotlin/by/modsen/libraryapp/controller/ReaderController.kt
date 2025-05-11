@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController
 class ReaderController(private val readerService: ReaderService) {
 
     @PostMapping
-    fun save(@RequestBody readerRequest: ReaderRequest): ResponseEntity<ReaderResponse> {
+    fun create(@RequestBody readerRequest: ReaderRequest): ResponseEntity<ReaderResponse> {
         val readerResponse = readerService.save(readerRequest)
         return ResponseEntity(readerResponse, HttpStatus.CREATED)
     }

@@ -15,3 +15,8 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+    contexts: dev
+#    contexts: КОНТЕКСТ
