@@ -4,7 +4,7 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5432/library_db
-    username: vitya
+    username: postgres
     password: 22817
     driver-class-name: org.postgresql.Driver
 
@@ -20,3 +20,8 @@ spring:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
     contexts: dev
 #    contexts: КОНТЕКСТ
+
+app:
+  jwt:
+    secretKey: YbTKVl16oJEupzYyHy8Ox0vmPu7/YaROi93tbYDC+CE=
+    expiration: 9999999999999999

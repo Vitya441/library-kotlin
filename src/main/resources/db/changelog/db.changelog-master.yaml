@@ -13,3 +13,5 @@ databaseChangeLog:
       file: db/changelog/v2/v2-audit-columns.yaml
   - include:
       file: db/changelog/v2/v2-demo-data.xml
+  - include:
+      file: db/changelog/v2/v2-create-user-table.yaml
