@@ -27,32 +27,21 @@ class SecurityConfiguration(
         http {
             csrf { disable() }
             authorizeHttpRequests {
-                // Разрешаем всем доступ к регистрации/входу и публичным ресурсам
                 authorize("/api/v1/auth/**", permitAll)
                 authorize("/public/**", permitAll)
-                // Любой другой запрос требует аутентификации
                 authorize(anyRequest, authenticated)
             }
             sessionManagement {
-                sessionCreationPolicy = SessionCreationPolicy.STATELESS // Использование JWT
+                sessionCreationPolicy = SessionCreationPolicy.STATELESS
             }
-            // Отключаем httpBasic, если он не нужен
             httpBasic { disable() }
 
             // DSL-синтаксис для addFilterBefore
             addFilterBefore<UsernamePasswordAuthenticationFilter>(jwtAuthenticationFilter)
         }
-        // В отличие от Java, в Kotlin DSL необходимо явно вызвать http.build()
+
         return http.build()
     }
-
-//    @Bean
-//    fun authenticationProvider(): AuthenticationProvider {
-//        val provider = DaoAuthenticationProvider()
-//        provider.setUserDetailsService(jpaUserDetailsService)
-//        provider.setPasswordEncoder(passwordEncoder())
-//        return provider
-//    }
 
     @Bean
     @Throws(Exception::class)

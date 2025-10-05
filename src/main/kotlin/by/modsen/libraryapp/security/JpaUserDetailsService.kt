@@ -11,7 +11,6 @@ class JpaUserDetailsService(
 ) : UserDetailsService {
 
     override fun loadUserByUsername(username: String): UserDetails {
-        println("Loading user by username: $username")
         val user = userRepository
             .findByUsername(username)
             .orElseThrow { RuntimeException("User with username: $username not found") }

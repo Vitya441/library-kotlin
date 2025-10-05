@@ -5,7 +5,7 @@ import by.modsen.libraryapp.entity.Reservation
 import org.mapstruct.Mapper
 import org.mapstruct.MappingConstants
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = [ReaderMapper::class, BookMapper::class])
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = [UserMapper::class, BookMapper::class])
 interface ReservationMapper {
 
     fun toListResponse(reservations: List<Reservation>): List<ReservationResponse>

@@ -1,7 +1,7 @@
 package by.modsen.libraryapp.service
 
-import by.modsen.libraryapp.dto.request.BookRequest
 import by.modsen.libraryapp.dto.request.BookPatchRequest
+import by.modsen.libraryapp.dto.request.BookRequest
 import by.modsen.libraryapp.dto.response.BookResponse
 import by.modsen.libraryapp.dto.response.PaginatedResponse
 

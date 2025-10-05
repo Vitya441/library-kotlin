@@ -7,6 +7,7 @@ import by.modsen.libraryapp.dto.response.PaginatedResponse
 import by.modsen.libraryapp.service.BookService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController
 class BookController(private val bookService: BookService) {
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN','LIBRARIAN')")
     fun create(@RequestBody bookRequest: BookRequest): ResponseEntity<BookResponse> {
         return ResponseEntity(bookService.save(bookRequest), HttpStatus.CREATED)
     }
@@ -46,16 +48,19 @@ class BookController(private val bookService: BookService) {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','LIBRARIAN')")
     fun updateById(@PathVariable id: Long, @RequestBody updateRequest: BookRequest): ResponseEntity<BookResponse> {
         return ResponseEntity.ok(bookService.updateBookById(id, updateRequest))
     }
 
     @PatchMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','LIBRARIAN')")
     fun patchById(@PathVariable id: Long, @RequestBody patchRequest: BookPatchRequest): ResponseEntity<BookResponse> {
         return ResponseEntity.ok(bookService.patchBookById(id, patchRequest))
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','LIBRARIAN')")
     fun deleteById(@PathVariable id: Long): ResponseEntity<Unit> {
         bookService.deleteById(id)
         return ResponseEntity.noContent().build()

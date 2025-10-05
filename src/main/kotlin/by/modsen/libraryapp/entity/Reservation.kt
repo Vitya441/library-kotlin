@@ -18,7 +18,7 @@ class Reservation(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reader_id", nullable = false)
-    val reader: Reader,
+    val reader: User,
 
     val reservationDate: LocalDate = LocalDate.now(),
 

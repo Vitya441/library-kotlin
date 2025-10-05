@@ -6,7 +6,7 @@ import java.time.LocalDate
 data class ReservationResponse(
     var id: Long?,
     val book: BookResponse,
-    val reader: ReaderResponse,
+    val reader: UserResponse,
     val reservationDate: LocalDate,
     var status: OrderStatus = OrderStatus.PENDING,
 )

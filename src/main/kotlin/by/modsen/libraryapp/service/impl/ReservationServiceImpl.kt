@@ -8,30 +8,25 @@ import by.modsen.libraryapp.exception.NotFoundException
 import by.modsen.libraryapp.mapper.ReservationMapper
 import by.modsen.libraryapp.repository.BookRepository
 import by.modsen.libraryapp.repository.LoanRepository
-import by.modsen.libraryapp.repository.ReaderRepository
 import by.modsen.libraryapp.repository.ReservationRepository
+import by.modsen.libraryapp.repository.UserRepository
 import by.modsen.libraryapp.service.ReservationService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
-
-/**                             TODO:
- * Подумать над следующим, зарезервировать, значит уменьшить доступное кол-во на
- * еденицу, у меня в коде пока что не изменяется кол-во доступных книг при резервировании
- */
 
 @Service
 class ReservationServiceImpl(
     private val reservationRepository: ReservationRepository,
     private val bookRepository: BookRepository,
     private val loanRepository: LoanRepository,
-    private val readerRepository: ReaderRepository,
+    private val userRepository: UserRepository,
     private val reservationMapper: ReservationMapper,
 ) : ReservationService {
 
     @Transactional
     override fun reserveBook(readerId: Long, bookId: Long): ReservationResponse {
-        val reader = readerRepository
+        val reader = userRepository
             .findById(readerId)
             .orElseThrow { NotFoundException("Reader with id = $readerId not found") }
 
@@ -50,11 +45,6 @@ class ReservationServiceImpl(
         return reservationMapper.toResponse(reservation)
     }
 
-    /**                TODO: возможно нет
-     * Возможно ручное одобрение или отклонение заявки убрать,
-     * а просто проверять долги пользователя в приложении, и если
-     * их нет, то позволять делать бронирование
-     */
     @Transactional
     override fun rejectReservation(reservationId: Long) {
         val reservation = reservationRepository

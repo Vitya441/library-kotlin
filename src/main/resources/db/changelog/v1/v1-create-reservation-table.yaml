@@ -27,7 +27,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_reservation_reader
-                    references: reader(id)
+                    references: app_user(id)
                     deleteCascade: true
               - column:
                   name: reservation_date

@@ -12,10 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-/**
- * Пока не знаю кто по логике приложения будет использовать этот метод:
- * Читатель или сотрудник библиотеки ?
- */
 @RestController
 @RequestMapping("/loans")
 class LoanController(private val loanService: LoanService) {
@@ -39,5 +35,4 @@ class LoanController(private val loanService: LoanService) {
     fun getActiveByReaderId(@PathVariable readerId: Long): ResponseEntity<List<LoanResponse>> {
         return ResponseEntity.ok(loanService.getActiveLoansByReaderId(readerId))
     }
-
 }

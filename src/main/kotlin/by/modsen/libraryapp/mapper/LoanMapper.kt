@@ -5,7 +5,7 @@ import by.modsen.libraryapp.entity.Loan
 import org.mapstruct.Mapper
 import org.mapstruct.MappingConstants
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = [BookMapper::class, ReaderMapper::class])
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = [BookMapper::class, UserMapper::class])
 interface LoanMapper {
 
     fun toResponse(loan: Loan): LoanResponse

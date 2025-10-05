@@ -26,17 +26,6 @@ databaseChangeLog:
                   name: updated_at
                   type: timestamp
         - addColumn:
-            tableName: reader
-            columns:
-              - column:
-                  name: created_at
-                  type: timestamp
-                  constraints:
-                    nullable: false
-              - column:
-                  name: updated_at
-                  type: timestamp
-        - addColumn:
             tableName: reservation
             columns:
               - column:
@@ -47,4 +36,3 @@ databaseChangeLog:
               - column:
                   name: updated_at
                   type: timestamp
-

@@ -8,7 +8,7 @@ import by.modsen.libraryapp.exception.NotFoundException
 import by.modsen.libraryapp.mapper.LoanMapper
 import by.modsen.libraryapp.repository.BookRepository
 import by.modsen.libraryapp.repository.LoanRepository
-import by.modsen.libraryapp.repository.ReaderRepository
+import by.modsen.libraryapp.repository.UserRepository
 import by.modsen.libraryapp.service.LoanService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -18,7 +18,7 @@ import java.time.LocalDate
 class LoanServiceImpl(
     private val loanRepository: LoanRepository,
     private val bookRepository: BookRepository,
-    private val readerRepository: ReaderRepository,
+    private val userRepository: UserRepository,
     private val loanMapper: LoanMapper,
 ) : LoanService {
 
@@ -30,7 +30,7 @@ class LoanServiceImpl(
         val readerId = loanRequest.readerId
         val bookId = loanRequest.bookId
 
-        val reader = readerRepository
+        val reader = userRepository
             .findById(readerId)
             .orElseThrow { NotFoundException("Reader with id = $readerId not found") }
 
@@ -76,7 +76,7 @@ class LoanServiceImpl(
     }
 
     override fun getLoansByReaderId(readerId: Long): List<LoanResponse> {
-        if (!readerRepository.existsById(readerId)) {
+        if (!userRepository.existsById(readerId)) {
             throw NotFoundException("Reader with id = $readerId not found")
         }
         val loans = loanRepository.findAllByReaderId(readerId)
@@ -85,12 +85,11 @@ class LoanServiceImpl(
     }
 
     override fun getActiveLoansByReaderId(readerId: Long): List<LoanResponse> {
-        if (!readerRepository.existsById(readerId)) {
+        if (!userRepository.existsById(readerId)) {
             throw NotFoundException("Reader with id = $readerId not found")
         }
         val loans = loanRepository.findAllByReaderIdAndIsReturnedFalse(readerId)
 
         return loanMapper.toListResponse(loans)
     }
-
 }
